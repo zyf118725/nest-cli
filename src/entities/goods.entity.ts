@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class Goods {
@@ -11,8 +11,13 @@ export class Goods {
   @Column()
   price: string;
 
-  @Column()
-  createAt: string;
+  @CreateDateColumn({
+    type: 'timestamp',
+    nullable: false,
+    name: 'createAt',
+    comment: '创建时间',
+  })
+  createAt: Date;
 
   @Column()
   updateAt: string;

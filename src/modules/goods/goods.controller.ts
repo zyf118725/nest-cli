@@ -6,12 +6,17 @@ import {
   Post,
   Body,
   Headers,
+  ParseIntPipe,
 } from '@nestjs/common';
 // import { formatData } from '../util';
-// 1.引入
 import { GoodsService } from './goods.service';
+import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { AddDto } from './dto/add.dto';
+import { GoodsPipe } from './goods.pipe';
 
 @Controller('goods')
+@ApiTags('商品')
 export class GoodsController {
   // 2. 初始化
   constructor(private goodsService: GoodsService) { };
@@ -23,17 +28,17 @@ export class GoodsController {
 
   // 查询
   @Get('list')
+  @ApiOperation({ summary: "我是查询接口", description: "不需要token" })
+  @ApiQuery({ name: "pageNum", description: "页码", required: true })
   async list(@Query() params: any) {
-    console.log('params: ', params);
     // 3. 使用
     return this.goodsService.getList(params);
   }
 
   // 增加
   @Post('add')
-  add(@Body() params: any, @Headers() headers: any): any {
-    console.log('headers: ', headers);
-    console.log('body: ', params);
+  add(@Body(GoodsPipe) params: AddDto, @Headers() headers: any): any {
+    console.log('params: ', params);
     return this.goodsService.add(params);
   }
 
@@ -46,13 +51,13 @@ export class GoodsController {
 
   // 删除
   @Post('delete')
-  delete(@Body() params: any): any {
-    console.log('params: ', params);
-    return this.goodsService.delete(params);
+  delete(@Body('id', ParseIntPipe) id: number): any {
+    return this.goodsService.delete(id);
   }
 
   // 获取详情信息
   @Get('/detail/:id')
+  @ApiParam({ name: "id", description: "用户id", required: true })
   detail(@Param() params: any): any {
     console.log('params: ', params);
     return '获取详情信息';

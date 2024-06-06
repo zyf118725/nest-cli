@@ -27,10 +27,8 @@ export class GoodsService {
 
   // 修改
   async update(params) {
-    params.id = parseInt(params.id)
-    // const data = await this.goodsEntity.save(params);
     const data = await this.goodsEntity.update({ id: params.id }, params);
-    console.log('data: ', data);
+    console.log('db-data: ', data);
     if (data.affected > 0) {
       return formatSuccess('成功');
     } else {
@@ -39,8 +37,8 @@ export class GoodsService {
   }
 
   // 删除
-  async delete(params) {
-    const id = parseInt(params.id);
+  async delete(id) {
+    // const id = parseInt(params.id);
     const data = await this.goodsEntity.delete({ id });
     console.log('data: ', data);
     if (data.affected > 0) {

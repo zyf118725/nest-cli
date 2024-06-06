@@ -19,7 +19,9 @@ console.log('__dirname: ', __dirname);
       password: 'devpass',
       database: 'nsettest',
       // 扫描本项目中.entity.ts或者.entity.js的文件
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      // entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [],
+      autoLoadEntities: true,
       synchronize: false,
     }),
     UserModule,
