@@ -1,38 +1,42 @@
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import config from './config/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LoggerMiddleware } from './middleware/logger/logger.middleware';
-import { UserModule } from './modules/user/user.module';
 import { GoodsModule } from './modules/goods/goods.module';
-
-// __dirname
-console.log('__dirname: ', __dirname);
+import { UserModule } from './modules/user/user.module';
+import { OrderModule } from './modules/order/order.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'aliyun-vobile-test-db.ops.vobile.org',
-      port: 3306,
-      username: 'devuser',
-      password: 'devpass',
-      database: 'nsettest',
-      // 扫描本项目中.entity.ts或者.entity.js的文件
-      // entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      entities: [],
-      autoLoadEntities: true,
-      synchronize: false,
+    /** 环境变量配置 */
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [config], // 加载自定义config
     }),
-    UserModule,
+    // 数据库连接
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get<string>('database.host'),
+        port: configService.get<number>('database.port'),
+        username: configService.get<string>('database.username'),
+        password: configService.get<string>('database.password'),
+        database: configService.get<string>('database.database'),
+        synchronize: true,
+        // 自动引入实体
+        autoLoadEntities: true,
+        timezone: '+08:00', // 东八时区
+      }),
+      inject: [ConfigService],
+    }),
     GoodsModule,
+    UserModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    // forRoutes可放路由forRoutes('goods')、控制器，建议放控制器
-    consumer.apply(LoggerMiddleware).forRoutes('*');
-  }
-}
+export class AppModule { }

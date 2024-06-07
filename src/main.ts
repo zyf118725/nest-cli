@@ -1,23 +1,22 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common'
-// 1. 引入
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+  const port = configService.get<number>('port');
 
-  // 2.配置
-  const config = new DocumentBuilder()
-    .setTitle('接口文档')
-    .setDescription('文档描述')
-    .setVersion('1.0')
-    // .addTag('接口文档')
-    .build();
+  // 全局DTO校验
+  app.useGlobalPipes(new ValidationPipe());
+
+  // 配置swagger
+  const config = new DocumentBuilder().setTitle('接口文档').setDescription('文档描述').setVersion('1.0').build();
   const document = SwaggerModule.createDocument(app, config);
-  // 设置api文档地址, 访问地址：http://localhost:5001/api
-  SwaggerModule.setup('api', app, document);
-  // app.useGlobalPipes(new ValidationPipe());
-  await app.listen(5001);
+  SwaggerModule.setup('doc', app, document); //  访问地址：http://localhost:5001/doc; 使用doc替代api做出区分
+
+  await app.listen(port);
 }
 bootstrap();

@@ -1,24 +1,25 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
-
 @Entity()
-export class Goods {
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   name: string;
 
-  @Column()
-  price: string;
+  @CreateDateColumn({
+    type: 'timestamp',
+    nullable: false,
+    name: 'createTime',
+    comment: '创建时间',
+  })
+  createTime: Date;
 
   @CreateDateColumn({
     type: 'timestamp',
     nullable: false,
-    name: 'createAt',
-    comment: '创建时间',
+    name: 'updateTime',
+    comment: '更新时间',
   })
-  createAt: Date;
-
-  @Column()
-  updateAt: string;
+  updateTime: string;
 }

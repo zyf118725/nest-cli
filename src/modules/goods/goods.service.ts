@@ -1,8 +1,11 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { Goods } from '../../entities/goods.entity';
+import { CreateGoodDto } from './dto/create-good.dto';
+import { UpdateGoodDto } from './dto/update-good.dto';
+import { Goods } from './entities/goods.entity';
 import { formatError, formatPage, formatSuccess } from '../../util';
+
 @Injectable()
 export class GoodsService {
   constructor(
@@ -10,25 +13,29 @@ export class GoodsService {
     private goodsEntity: Repository<Goods>,
   ) { }
 
-  // 查询
-  async getList(params) {
+  async create(createGoodDto: CreateGoodDto) {
+    const data = await this.goodsEntity.save(createGoodDto);
+    console.log('data: ', data);
+    return formatSuccess('增加成功');
+  }
+
+  async findAll(params) {
     const { pageNum, pageSize } = params;
     const data = await this.goodsEntity.findAndCount();
     console.log('data: ', data);
     return formatPage({ pageNum, pageSize, data });
   }
 
-  // 增加
-  async add(params) {
-    const data = await this.goodsEntity.save(params);
+  async findOne(id: number) {
+    console.log('id: ', id);
+    const data = await this.goodsEntity.findOneBy({ id });
     console.log('data: ', data);
-    return formatSuccess('增加成功');
+    return formatSuccess({ ...data });
   }
 
-  // 修改
-  async update(params) {
-    const data = await this.goodsEntity.update({ id: params.id }, params);
-    console.log('db-data: ', data);
+  async update(id: number, updateGoodDto: UpdateGoodDto) {
+    const data = await this.goodsEntity.update({ id }, updateGoodDto);
+    console.log('data: ', data);
     if (data.affected > 0) {
       return formatSuccess('成功');
     } else {
@@ -36,9 +43,7 @@ export class GoodsService {
     }
   }
 
-  // 删除
-  async delete(id) {
-    // const id = parseInt(params.id);
+  async remove(id: number) {
     const data = await this.goodsEntity.delete({ id });
     console.log('data: ', data);
     if (data.affected > 0) {
@@ -47,8 +52,4 @@ export class GoodsService {
       return formatError({ msg: '失败' })
     }
   }
-
 }
-/*
-
-*/
