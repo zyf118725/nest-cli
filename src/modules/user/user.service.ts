@@ -12,6 +12,17 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) { }
 
+  // 登录
+  async login(createUserDto: CreateUserDto) {
+    const data = await this.userRepository.findOneBy({ name: createUserDto.name });
+    console.log('data: ', data);
+    if (data && data?.password === createUserDto.password) {
+      return formatSuccess({ ...data });
+    } else {
+      return formatError({ msg: '用户名或密码错误' });
+    }
+  }
+
   async create(createUserDto: CreateUserDto) {
     console.log('createUserDto: ', createUserDto);
     const data = await this.userRepository.save(createUserDto);
@@ -24,11 +35,10 @@ export class UserService {
     return formatPage({ pageNum, pageSize, data });
   }
 
-  async findOne(id: number) {
-    console.log('id: ', id);
-    const data = await this.userRepository.findOneBy({ id });
-    console.log('data: ', data);
-    return formatSuccess({ ...data });
+  // 通过用户名查找用户信息
+  async findOne(username: string) {
+    const data = await this.userRepository.findOneBy({ name: username });
+    return data;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
