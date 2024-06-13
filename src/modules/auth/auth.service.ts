@@ -8,8 +8,9 @@ import { formatError, formatSuccess } from 'src/util';
 export class AuthService {
   constructor(
     private userService: UserService,
-    private jwtService: JwtService
-  ) { }
+    private jwtService: JwtService,
+  ) {
+  }
 
   // 登录
   async signIn(username: string, pass: string): Promise<any> {

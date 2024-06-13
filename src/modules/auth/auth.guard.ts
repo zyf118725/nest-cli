@@ -4,15 +4,17 @@ import { Request } from 'express';
 // 1. 引入
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './decorators/public.decorator';
-
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     // 2. 注入
-    private reflector: Reflector
-  ) { }
+    private reflector: Reflector,
+    private readonly configService: ConfigService
+  ) {
+  }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     // 3. 判断是否需要验证
@@ -32,7 +34,7 @@ export class AuthGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(
         token,
         // jwt秘钥
-        { secret: '123456' }
+        { secret: this.configService.get('jwt.secret') }
       );
       request['user'] = payload;
     } catch {
@@ -46,3 +48,4 @@ export class AuthGuard implements CanActivate {
     return type === 'Bearer' ? token : undefined;
   }
 }
+

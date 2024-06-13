@@ -6,15 +6,18 @@ import { JwtModule } from '@nestjs/jwt';
 // 1. 引入依赖
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth.guard';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     UserModule,
-    JwtModule.register({
-      global: true,
-      // jwt秘钥
-      secret: '123456',
-      signOptions: { expiresIn: '7d' },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('jwt.secret'),
+        signOptions: { expiresIn: configService.get<string>('jwt.expiresIn') },
+      }),
+      inject: [ConfigService],
     }),
   ],
   controllers: [AuthController],

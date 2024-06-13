@@ -7,6 +7,9 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+  console.log('configService2====: ', configService.get('other'));
+
+
   const port = configService.get<number>('port');
 
   // 全局DTO校验
@@ -16,7 +19,7 @@ async function bootstrap() {
   const config = new DocumentBuilder().setTitle('接口文档').setDescription('文档描述').setVersion('1.0').build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('doc', app, document); //  访问地址：http://localhost:5001/doc; 使用doc替代api做出区分
-
   await app.listen(port);
+  console.log(`serve started http://localhost:5001`);
 }
 bootstrap();
