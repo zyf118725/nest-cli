@@ -14,5 +14,5 @@ export default () => {
       expiresIn: process.env.JWT_EXPIRATION_TIME,
     },
     other: process.env.OTHER,
-  }
+  };
 };

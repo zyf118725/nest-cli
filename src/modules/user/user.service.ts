@@ -4,17 +4,19 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { formatSuccess, formatError, formatPage, } from '../../util';
+import { formatSuccess, formatError, formatPage } from '../../util';
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) { }
+  ) {}
 
   // 登录
   async login(createUserDto: CreateUserDto) {
-    const data = await this.userRepository.findOneBy({ name: createUserDto.name });
+    const data = await this.userRepository.findOneBy({
+      name: createUserDto.name,
+    });
     console.log('data: ', data);
     if (data && data?.password === createUserDto.password) {
       return formatSuccess({ ...data });
@@ -47,7 +49,7 @@ export class UserService {
     if (data.affected > 0) {
       return formatSuccess('成功');
     } else {
-      return formatError({ msg: '失败' })
+      return formatError({ msg: '失败' });
     }
   }
 
@@ -57,7 +59,7 @@ export class UserService {
     if (data.affected > 0) {
       return formatSuccess('成功');
     } else {
-      return formatError({ msg: '失败' })
+      return formatError({ msg: '失败' });
     }
   }
 }

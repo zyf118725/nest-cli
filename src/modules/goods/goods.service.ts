@@ -11,7 +11,7 @@ export class GoodsService {
   constructor(
     @InjectRepository(Goods)
     private goodsEntity: Repository<Goods>,
-  ) { }
+  ) {}
 
   async create(createGoodDto: CreateGoodDto) {
     const data = await this.goodsEntity.save(createGoodDto);
@@ -39,7 +39,7 @@ export class GoodsService {
     if (data.affected > 0) {
       return formatSuccess('成功');
     } else {
-      return formatError({ msg: '失败' })
+      return formatError({ msg: '失败' });
     }
   }
 
@@ -49,7 +49,7 @@ export class GoodsService {
     if (data.affected > 0) {
       return formatSuccess('成功');
     } else {
-      return formatError({ msg: '失败' })
+      return formatError({ msg: '失败' });
     }
   }
 }

@@ -1,2 +1,2 @@
-import { Goods } from '../entities/goods.entity'
-export class CreateGoodDto extends Goods { }
+import { Goods } from '../entities/goods.entity';
+export class CreateGoodDto extends Goods {}
