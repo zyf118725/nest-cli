@@ -15,8 +15,6 @@ const APP_ENV = process.env.APP_ENV;
 if (APP_ENV === 'production') envFilePath.unshift(`.env.${APP_ENV}`);
 console.log('app.module-APP_ENV====: ', APP_ENV);
 
-
-
 @Module({
   imports: [
     /** 环境变量配置 */
@@ -37,7 +35,7 @@ console.log('app.module-APP_ENV====: ', APP_ENV);
           username: configService.get<string>('database.username'),
           password: configService.get<string>('database.password'),
           database: configService.get<string>('database.database'),
-          synchronize: true,
+          synchronize: APP_ENV === 'production' ? false : true,
           // 自动引入实体
           autoLoadEntities: true,
           timezone: '+08:00', // 东八时区

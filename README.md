@@ -1,6 +1,6 @@
 # 简介
 nestjs 的模版
-包含 typeorm + jwt + swagger 
+包含 Typeorm + JWt + Swagger + Mysql + docker
 
 # 安装依赖
 pnpm install
