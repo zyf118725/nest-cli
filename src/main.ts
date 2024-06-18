@@ -22,6 +22,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('doc', app, document); //  访问地址：http://localhost:5001/doc; 使用doc替代api做出区分
+  app.setGlobalPrefix('api'); // 设置全局前缀为 'api'
   await app.listen(port);
   console.log(`serve started http://localhost:5001`);
 }
