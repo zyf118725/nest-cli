@@ -28,6 +28,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
-  ]
+  ],
 })
-export class AuthModule { }
+export class AuthModule {}

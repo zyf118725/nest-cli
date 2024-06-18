@@ -10,7 +10,7 @@ import { OrderModule } from './modules/order/order.module';
 import { AuthModule } from './modules/auth/auth.module';
 
 // 处理环境变量
-let envFilePath = ['.env'];
+const envFilePath = ['.env'];
 const APP_ENV = process.env.APP_ENV;
 if (APP_ENV === 'production') envFilePath.unshift(`.env.${APP_ENV}`);
 console.log('app.module-APP_ENV====: ', APP_ENV);

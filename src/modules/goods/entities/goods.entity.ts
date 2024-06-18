@@ -1,4 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -24,7 +29,12 @@ export class Goods {
 
   @Column({ comment: '类型' })
   // 3.演示枚举
-  @ApiProperty({ description: '类型 1普通 2拼团商品', example: 1, required: false, enum: [1, 2] })
+  @ApiProperty({
+    description: '类型 1普通 2拼团商品',
+    example: 1,
+    required: false,
+    enum: [1, 2],
+  })
   type: string;
 
   @CreateDateColumn({

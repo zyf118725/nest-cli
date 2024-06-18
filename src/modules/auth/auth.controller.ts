@@ -1,13 +1,18 @@
-import { Body, Controller, Post, UseGuards, Get, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UseGuards,
+  Get,
+  Request,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { Public } from './decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService,
-  ) {
-  }
+  constructor(private authService: AuthService) {}
 
   // 登录
   @Public()
