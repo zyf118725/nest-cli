@@ -1,7 +1,7 @@
 // 统一返回结构：成功
 export function formatSuccess(data = null) {
   return {
-    code: 1000,
+    code: 10000,
     msg: 'OK',
     data,
   };

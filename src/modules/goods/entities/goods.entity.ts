@@ -38,7 +38,7 @@ export class Goods {
     name: 'create_time',
     comment: '创建时间',
   })
-  createTime: Date;
+  create_time: Date;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -46,5 +46,5 @@ export class Goods {
     name: 'update_time',
     comment: '更新时间',
   })
-  updateTime: string;
+  update_time: string;
 }

@@ -25,14 +25,19 @@ export class UserService {
     console.log('params: ', params);
     const pageNum = params.pageNum || 1;
     const pageSize = params.pageSize || 10;
+    // 查询条件
+    const where: any = {};
+    if (params?.level) where.level = params?.level;
+
     // 获取总条数
-    const total = await this.userRepository.count({});
+    const total = await this.userRepository.count({ where });
     // 查第几页的数据
     let list = [];
     if (total > 0) {
       list = await this.userRepository.find({
         skip: (pageNum - 1) * pageSize,
         take: pageSize,
+        where,
         order: { create_time: 'DESC' },
       });
     }

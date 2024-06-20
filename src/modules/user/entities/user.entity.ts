@@ -22,7 +22,7 @@ export class User {
   @CreateDateColumn({
     type: 'timestamp',
     nullable: false,
-    name: 'createTime',
+    name: 'create_time',
     comment: '创建时间',
   })
   create_time: Date;
@@ -30,7 +30,7 @@ export class User {
   @CreateDateColumn({
     type: 'timestamp',
     nullable: false,
-    name: 'updateTime',
+    name: 'update_time',
     comment: '更新时间',
   })
   update_time: string;
