@@ -15,15 +15,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   // 配置swagger
-  const config = new DocumentBuilder()
-    .setTitle('接口文档')
-    .setDescription('文档描述')
-    .setVersion('1.0')
-    .build();
+  const config = new DocumentBuilder().setTitle('接口文档').setDescription('文档描述').setVersion('1.0').build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('doc', app, document); //  访问地址：http://localhost:5001/doc; 使用doc替代api做出区分
   app.setGlobalPrefix('api'); // 设置全局前缀为 'api'
   await app.listen(port);
-  console.log(`serve started http://localhost:5001`);
+  console.info(`main: ${configService.get('other')}-serve started http://localhost:${port}/api`);
 }
 bootstrap();

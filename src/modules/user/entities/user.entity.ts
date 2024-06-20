@@ -1,26 +1,23 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ comment: '用户' })
+  @Column({ comment: '用户名' })
+  @ApiProperty({ description: '用户名', example: 'admin' })
   @IsNotEmpty({ message: '用户名不能为空' })
-  @ApiProperty({ description: '用户', example: '张三' })
   name: string;
 
   @Column({ comment: '密码' })
+  @ApiProperty({ description: '密码', example: '123456' })
   @IsNotEmpty({ message: '密码不能为空' })
-  @ApiProperty({ description: '密码' })
   password: string;
+
+  @Column({ comment: '是否激活', default: true })
+  is_active: boolean;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -28,7 +25,7 @@ export class User {
     name: 'createTime',
     comment: '创建时间',
   })
-  createTime: Date;
+  create_time: Date;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -36,5 +33,5 @@ export class User {
     name: 'updateTime',
     comment: '更新时间',
   })
-  updateTime: string;
+  update_time: string;
 }

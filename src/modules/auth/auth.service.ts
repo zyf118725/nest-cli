@@ -1,8 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
-// 1. 导入jwt
+import * as md5 from 'md5';
 import { JwtService } from '@nestjs/jwt';
 import { formatError, formatSuccess } from 'src/util';
+import { CreateUserDto } from '../user/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -12,16 +13,19 @@ export class AuthService {
   ) {}
 
   // 登录
-  async signIn(username: string, pass: string): Promise<any> {
-    const user: any = await this.userService.findOne(username);
-    if (!user) return formatError({ msg: '用户名错误' });
-    if (user?.password !== pass) return formatError({ msg: '密码错误' });
-    // 2. 生成token
+  async signIn(createUserDto: CreateUserDto): Promise<any> {
+    const user: any = await this.userService.findOne(createUserDto.name);
+    if (!user) return formatError({ msg: '用户不存在' });
+    if (user?.password !== md5(createUserDto.password)) return formatError({ msg: '密码错误' });
+    // 生成token
     const payload = { username: user?.username, password: user?.password };
     const token = await this.jwtService.signAsync(payload);
     return formatSuccess({
-      name: user?.name,
       token,
+      userInfo: {
+        id: user?.id,
+        name: user?.name,
+      },
     });
   }
 }

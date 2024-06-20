@@ -20,10 +20,21 @@ export class GoodsService {
   }
 
   async findAll(params) {
-    const { pageNum, pageSize } = params;
-    const data = await this.goodsEntity.findAndCount();
-    console.log('data: ', data);
-    return formatPage({ pageNum, pageSize, data });
+    console.log('params: ', params);
+    const pageNum = params.pageNum || 1;
+    const pageSize = params.pageSize || 10;
+    // 获取总条数
+    const total = await this.goodsEntity.count({});
+    // 查第几页的数据
+    let list = [];
+    if (total > 0) {
+      list = await this.goodsEntity.find({
+        skip: (pageNum - 1) * pageSize,
+        take: pageSize,
+        // order: { create_time: 'DESC' },
+      });
+    }
+    return formatPage({ pageNum, pageSize, total, list });
   }
 
   async findOne(id: number) {

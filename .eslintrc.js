@@ -25,6 +25,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 0,
     // 关闭双引号的报错
     "singleQuote": 0,
-
+    // 关闭格式校验
+    "prettier/prettier": "off"
   },
 };

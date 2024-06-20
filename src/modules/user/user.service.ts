@@ -5,6 +5,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { formatSuccess, formatError, formatPage } from '../../util';
+import * as md5 from 'md5';
 @Injectable()
 export class UserService {
   constructor(
@@ -12,29 +13,30 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  // 登录
-  async login(createUserDto: CreateUserDto) {
-    const data = await this.userRepository.findOneBy({
-      name: createUserDto.name,
-    });
-    console.log('data: ', data);
-    if (data && data?.password === createUserDto.password) {
-      return formatSuccess({ ...data });
-    } else {
-      return formatError({ msg: '用户名或密码错误' });
-    }
-  }
-
   async create(createUserDto: CreateUserDto) {
-    console.log('createUserDto: ', createUserDto);
+    const userinfo = await this.findOne(createUserDto.name);
+    if (userinfo) return formatError({ msg: '用户名已存在' });
+    createUserDto.password = md5(createUserDto.password);
     const data = await this.userRepository.save(createUserDto);
     return formatSuccess('新增成功');
   }
+
   async findAll(params) {
-    const { pageNum, pageSize } = params;
-    const data = await this.userRepository.findAndCount();
-    console.log('data: ', data);
-    return formatPage({ pageNum, pageSize, data });
+    console.log('params: ', params);
+    const pageNum = params.pageNum || 1;
+    const pageSize = params.pageSize || 10;
+    // 获取总条数
+    const total = await this.userRepository.count({});
+    // 查第几页的数据
+    let list = [];
+    if (total > 0) {
+      list = await this.userRepository.find({
+        skip: (pageNum - 1) * pageSize,
+        take: pageSize,
+        order: { create_time: 'DESC' },
+      });
+    }
+    return formatPage({ pageNum, pageSize, total, list });
   }
 
   // 通过用户名查找用户信息

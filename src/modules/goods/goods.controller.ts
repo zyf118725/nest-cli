@@ -1,33 +1,25 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { GoodsService } from './goods.service';
 import { CreateGoodDto } from './dto/create-good.dto';
 import { UpdateGoodDto } from './dto/update-good.dto';
 import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
-
+import { Public } from '../auth/decorators/public.decorator';
 @ApiTags('商品')
 @Controller('goods')
 export class GoodsController {
   constructor(private readonly goodsService: GoodsService) {}
 
+  @Get()
+  @Public()
+  @ApiOperation({ summary: '查询-不鉴权', description: '查询' })
+  findAll(@Query() params: any) {
+    return this.goodsService.findAll(params);
+  }
+
   @Post()
   @ApiOperation({ summary: '新增', description: '新增' })
   create(@Body() createGoodDto: CreateGoodDto) {
     return this.goodsService.create(createGoodDto);
-  }
-
-  @Get()
-  @ApiOperation({ summary: '查询', description: '查询' })
-  findAll(@Query() params: any) {
-    return this.goodsService.findAll(params);
   }
 
   @Get(':id')

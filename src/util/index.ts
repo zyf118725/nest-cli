@@ -17,13 +17,16 @@ export function formatError({ code = 10002, msg = '服务器错误', data = null
 /**
  * 统一返回结构：分页
  */
-export function formatPage({ pageNum = 1, pageSize = 10, data = [] }) {
+export function formatPage({ pageNum = 1, pageSize = 10, total, list = [] }) {
+  console.log('total: ', total);
+  console.log('pageSize: ', pageSize);
+
   return formatSuccess({
     pageNum,
     pageSize,
-    list: data[0],
-    total: data[1],
-    totalPage: Math.ceil(data[1] / pageSize),
+    total: total,
+    totalPage: Math.ceil(total / pageSize),
+    list,
   });
 }
 

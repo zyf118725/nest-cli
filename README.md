@@ -20,3 +20,7 @@ pnpm run start:prod
 数据库、jwt相关配置在.env中
 
 测试
+
+# 注意事项
+1. token格式为  {Authorization : Bearer eyxxxxx}     
+   注意：Bearer+空格+token

@@ -1,9 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -40,7 +35,7 @@ export class Goods {
   @CreateDateColumn({
     type: 'timestamp',
     nullable: false,
-    name: 'createTime',
+    name: 'create_time',
     comment: '创建时间',
   })
   createTime: Date;
@@ -48,7 +43,7 @@ export class Goods {
   @CreateDateColumn({
     type: 'timestamp',
     nullable: false,
-    name: 'updateTime',
+    name: 'update_time',
     comment: '更新时间',
   })
   updateTime: string;
