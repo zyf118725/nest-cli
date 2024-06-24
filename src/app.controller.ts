@@ -11,4 +11,11 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  // 添加健康检查
+  @Public()
+  @Get('health')
+  health(): string {
+    return 'OK';
+  }
 }

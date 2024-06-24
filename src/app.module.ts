@@ -40,6 +40,7 @@ console.log('app.module-APP_ENV====: ', APP_ENV);
           // 自动引入实体
           autoLoadEntities: true,
           timezone: '+08:00', // 东八时区
+          // timezone: "Asia/Shanghai"
         };
       },
       inject: [ConfigService],

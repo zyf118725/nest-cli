@@ -31,7 +31,7 @@ export class GoodsService {
       list = await this.goodsEntity.find({
         skip: (pageNum - 1) * pageSize,
         take: pageSize,
-        // order: { create_time: 'DESC' },
+        order: { create_time: 'DESC' },
       });
     }
     return formatPage({ pageNum, pageSize, total, list });
