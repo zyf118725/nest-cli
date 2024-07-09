@@ -18,7 +18,7 @@ export class AuthService {
     if (!user) return formatError({ msg: '用户不存在' });
     if (user?.password !== md5(createUserDto.password)) return formatError({ msg: '密码错误' });
     // 生成token
-    const payload = { username: user?.username, password: user?.password };
+    const payload = { id: user?.id, name: user?.name, password: user?.password };
     const token = await this.jwtService.signAsync(payload);
     return formatSuccess({
       token,
