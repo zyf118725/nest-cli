@@ -1,18 +1,12 @@
 // 统一返回结构：成功
-export function formatSuccess(data = null) {
-  return {
-    code: 10000,
-    msg: 'OK',
-    data,
-  };
-}
+export const formatSuccess = (data = null) => ({
+  code: 10000,
+  msg: 'OK',
+  data,
+});
 
-/**
- * 统一返回结构：失败
- */
-export function formatError({ code = 10002, msg = '服务器错误', data = null }) {
-  return { code, msg, data };
-}
+// 统一返回结构：失败
+export const formatError = ({ code = 10002, msg = '服务器错误', data = null }) => ({ code, msg, data });
 
 /**
  * 统一返回结构：分页
@@ -20,7 +14,6 @@ export function formatError({ code = 10002, msg = '服务器错误', data = null
 export function formatPage({ pageNum = 1, pageSize = 10, total, list = [] }) {
   console.log('total: ', total);
   console.log('pageSize: ', pageSize);
-
   return formatSuccess({
     pageNum,
     pageSize,

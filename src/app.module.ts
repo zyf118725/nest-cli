@@ -8,7 +8,6 @@ import { GoodsModule } from './modules/goods/goods.module';
 import { UserModule } from './modules/user/user.module';
 import { OrderModule } from './modules/order/order.module';
 import { AuthModule } from './modules/auth/auth.module';
-
 // 处理环境变量
 const envFilePath = ['.env'];
 const APP_ENV = process.env.APP_ENV;
