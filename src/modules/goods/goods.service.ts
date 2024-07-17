@@ -5,6 +5,7 @@ import { CreateGoodDto } from './dto/create-good.dto';
 import { UpdateGoodDto } from './dto/update-good.dto';
 import { Goods } from './entities/goods.entity';
 import { formatError, formatPage, formatSuccess } from '../../util';
+import { productlist } from '../../util/api';
 
 @Injectable()
 export class GoodsService {
@@ -62,5 +63,12 @@ export class GoodsService {
     } else {
       return formatError({ msg: '失败' });
     }
+  }
+
+  // 获取第三方数据
+  async getThirdServe() {
+    const res: any = await productlist();
+    console.log('===res: ', res);
+    return formatSuccess(res);
   }
 }

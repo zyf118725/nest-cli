@@ -41,4 +41,11 @@ export class GoodsController {
   remove(@Param('id') id: string) {
     return this.goodsService.remove(+id);
   }
+
+  @Public()
+  @Post('getThirdServe')
+  @ApiOperation({ summary: 'z获取第三方数据' })
+  getThirdServe() {
+    return this.goodsService.getThirdServe();
+  }
 }
