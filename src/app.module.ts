@@ -8,6 +8,7 @@ import { GoodsModule } from './modules/goods/goods.module';
 import { UserModule } from './modules/user/user.module';
 import { OrderModule } from './modules/order/order.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { RedisModule } from './modules/redis/redis.module';
 // 处理环境变量
 const envFilePath = ['.env'];
 const APP_ENV = process.env.APP_ENV;
@@ -48,6 +49,7 @@ console.log('app.module-APP_ENV====: ', APP_ENV);
     UserModule,
     OrderModule,
     AuthModule,
+    RedisModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards, Get } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Get, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { Public } from './decorators/public.decorator';
@@ -25,6 +25,13 @@ export class AuthController {
   @Get('testToken')
   testToken() {
     return '验证token是否正常-OK';
+  }
+
+  // 退出登录
+  @ApiOperation({ summary: '退出登录' })
+  @Post('logout')
+  logout(@Body() body: any, @Request() req: any) {
+    return this.authService.logout(req?.user?.id);
   }
 
   @Public()

@@ -4,12 +4,16 @@ import * as md5 from 'md5';
 import { JwtService } from '@nestjs/jwt';
 import { formatError, formatSuccess } from 'src/util';
 import { CreateUserDto } from '../user/dto/create-user.dto';
+import { RedisService } from '../redis/redis.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
+    private redisService: RedisService,
+    private configService: ConfigService,
   ) {}
 
   // 登录
@@ -20,6 +24,8 @@ export class AuthService {
     // 生成token
     const payload = { id: user?.id, name: user?.name, password: user?.password };
     const token = await this.jwtService.signAsync(payload);
+    // 将token存入redis
+    await this.redisService.set(`${this.configService.get('redis.perfix')}:token_${user?.id}`, token, 30 * 24 * 60 * 60 * 1000);
     return formatSuccess({
       token,
       userInfo: {
@@ -27,5 +33,11 @@ export class AuthService {
         name: user?.name,
       },
     });
+  }
+
+  // 退出登录
+  async logout(userid) {
+    this.redisService.del(`${this.configService.get('redis.perfix')}:token_${userid}`);
+    return formatSuccess('logout success');
   }
 }

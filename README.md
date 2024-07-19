@@ -1,6 +1,10 @@
 # 简介
 nestjs 的模版
-包含 Typeorm + JWt + Swagger + Mysql + docker
+包含 Typeorm + JWt + Swagger + Mysql + docker + redis
+
+# 注意
+1. 需要保证mysql可以正常连接才能正常启动
+2. 需要保证redis可以正常连接
 
 # 安装依赖
 pnpm install
