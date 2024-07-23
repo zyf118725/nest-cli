@@ -19,7 +19,7 @@ export default () => {
       // username: process.env.DATABASE_USERNAME,
       password: process.env.REDIS_PASSWORD,
       database: process.env.REDIS_DB,
-      perfix: process.env.REDIS_PREFIX,
+      prefix: process.env.REDIS_PREFIX,
     },
     other: process.env.OTHER,
   };

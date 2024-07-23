@@ -37,7 +37,7 @@ export class AuthGuard implements CanActivate {
         { secret: this.configService.get('jwt.secret') },
       );
       // 重点：获取redis中对应的token
-      const redisToken = await this.redisService.get(`${this.configService.get('redis.perfix')}:token_${payload.id}`);
+      const redisToken = await this.redisService.get(`${this.configService.get('redis.prefix')}:token_${payload.id}`);
       if (!redisToken || redisToken !== token) {
         throw new UnauthorizedException('token不正确');
       }
