@@ -35,8 +35,8 @@ console.log('app.module-APP_ENV====: ', APP_ENV);
           username: configService.get<string>('database.username'),
           password: configService.get<string>('database.password'),
           database: configService.get<string>('database.database'),
-          // synchronize: APP_ENV === 'production' ? false : true,
-          synchronize: true,
+          synchronize: APP_ENV === 'production' ? false : true,
+          // synchronize: true,
           // 自动引入实体
           autoLoadEntities: true,
           timezone: '+08:00', // 东八时区
