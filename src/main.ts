@@ -10,15 +10,16 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const port = configService.get<number>('port');
+  app.setGlobalPrefix('api'); // 设置全局前缀为 'api'
 
   // 全局DTO校验
   app.useGlobalPipes(new ValidationPipe());
 
   // 配置swagger
-  const config = new DocumentBuilder().setTitle('接口文档').setDescription('文档描述').setVersion('1.0').build();
+  const config = new DocumentBuilder().setTitle('接口文档').setDescription('文档描述').setVersion('1.0').addBearerAuth().build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('doc', app, document); //  访问地址：http://localhost:5001/doc; 使用doc替代api做出区分
-  app.setGlobalPrefix('api'); // 设置全局前缀为 'api'
+  SwaggerModule.setup('/api/doc', app, document);
+
   app.use(cors()); // 全局启用 CORS
   app.useGlobalFilters(new AllExceptionsFilter()); // 注册全局异常过滤器
   await app.listen(port);

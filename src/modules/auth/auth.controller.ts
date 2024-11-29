@@ -2,9 +2,10 @@ import { Body, Controller, Post, UseGuards, Get, Request } from '@nestjs/common'
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { Public } from './decorators/public.decorator';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 
+@ApiBearerAuth()
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -35,7 +36,7 @@ export class AuthController {
   }
 
   @Public()
-  @ApiOperation({ summary: '检测', description: '检测' })
+  @ApiOperation({ summary: '检测-无需登录', description: '检测' })
   @Get('test')
   test() {
     return '检验接口';
