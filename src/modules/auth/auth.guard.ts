@@ -5,7 +5,7 @@ import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './decorators/public.decorator';
 import { ConfigService } from '@nestjs/config';
-import { RedisService } from '../redis/redis.service';
+// import { RedisService } from '../redis/redis.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
     // 2. 注入
     private reflector: Reflector,
     private readonly configService: ConfigService,
-    private redisService: RedisService,
+    // private redisService: RedisService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -32,10 +32,10 @@ export class AuthGuard implements CanActivate {
         { secret: this.configService.get('jwt.secret') },
       );
       // 重点：获取redis中对应的token
-      const redisToken = await this.redisService.get(`${this.configService.get('redis.prefix')}:token_${payload.id}`);
-      if (!redisToken || redisToken !== token) {
-        throw new UnauthorizedException('token不正确');
-      }
+      // const redisToken = await this.redisService.get(`${this.configService.get('redis.prefix')}:token_${payload.id}`);
+      // if (!redisToken || redisToken !== token) {
+      //   throw new UnauthorizedException('token不正确');
+      // }
       request['user'] = payload;
     } catch {
       throw new UnauthorizedException();
