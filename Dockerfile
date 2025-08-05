@@ -12,7 +12,7 @@ RUN pnpm i
 RUN pnpm run build
 # 运行Nest.js应用程序
 # 终端会一直运行，不会退出，访问接口失败
-# RUN npm run start:prod
-CMD ["pnpm", "start:prod"]
+# RUN npm run dev:prod
+CMD ["pnpm", "dev:prod"]
 # 暴漏端口号
 EXPOSE 5010

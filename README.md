@@ -15,7 +15,7 @@ npm run start
 # 发布
 pnpm build
 // 运行打包后的代码
-pnpm run start:prod
+pnpm run dev:prod
 
 # 接口访问地址-注意统一前缀api
 http://localhost:5001/api/xxxx
