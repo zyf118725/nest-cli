@@ -6,6 +6,8 @@ import { UpdateGoodDto } from './dto/update-good.dto';
 import { Goods } from './entities/goods.entity';
 import { formatError, formatPage, formatSuccess } from '../../util';
 import { productlist } from '../../util/api';
+import { createWriteStream, existsSync, mkdirSync } from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class GoodsService {
@@ -70,5 +72,32 @@ export class GoodsService {
     const res: any = await productlist();
     console.log('===res: ', res);
     return formatSuccess(res);
+  }
+
+  /*
+  file信息:  {
+    fieldname: 'img',
+    originalname: 'banner.png',
+    encoding: '7bit',
+    mimetype: 'image/png',
+    size: 491390
+  }
+  */
+  // 上传商品信息
+  async addGoods({ params, file }) {
+    console.log('====body: ', JSON.parse(JSON.stringify(params))); // { name: '张三' }
+    console.log('====file: ', file);
+    // 处理文件存放位置
+    const publicDir = process.cwd() + '/public/upload';
+    if (!existsSync(publicDir)) mkdirSync(publicDir, { recursive: true });
+    const filePath = join(publicDir, `${Date.now()}-${file.originalname}`);
+    // 写入文件
+    const writeStream = createWriteStream(filePath);
+    writeStream.write(file.buffer);
+
+    return formatSuccess({
+      txt: '上传图片成功',
+      filePath: `/public/${filePath.split('public')[1]}`,
+    });
   }
 }

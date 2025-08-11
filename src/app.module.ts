@@ -8,6 +8,8 @@ import { GoodsModule } from './modules/goods/goods.module';
 import { UserModule } from './modules/user/user.module';
 import { OrderModule } from './modules/order/order.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 // import { RedisModule } from './modules/redis/redis.module';
 // 处理环境变量
 const envFilePath = ['.env'];
@@ -17,6 +19,11 @@ console.log('app.module-APP_ENV====: ', APP_ENV);
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'), // 静态文件目录
+      serveRoot: '/public', // 可选的，设置访问前缀
+      exclude: ['/api*'], // 排除某些路径
+    }),
     /** 环境变量配置 */
     ConfigModule.forRoot({
       isGlobal: true,

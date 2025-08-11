@@ -35,3 +35,6 @@ http://localhost:5001/api/doc-json
 1. token格式为  {Authorization : Bearer eyxxxxx}     
    注意：Bearer+空格+token
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Imxpc2kiLCJwYXNzd29yZCI6ImUxMGFkYzM5NDliYTU5YWJiZTU2ZTA1N2YyMGY4ODNlIiwiaWF0IjoxNzMyODc1MTM4LCJleHAiOjE3MzU0NjcxMzh9.vmQFVrKV-7mgkJJPQ-qjXArspaun_DYNDva7xgr7n18
+
+# 上传文件
+1. 商品模块：商品图、商品标题

@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { GoodsService } from './goods.service';
 import { CreateGoodDto } from './dto/create-good.dto';
 import { UpdateGoodDto } from './dto/update-good.dto';
-import { ApiTags, ApiOperation, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiQuery, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { Public } from '../auth/decorators/public.decorator';
+import { UploadFileDto } from './dto/uploadFile.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 @ApiBearerAuth()
 @ApiTags('商品')
 @Controller('goods')
@@ -48,5 +50,14 @@ export class GoodsController {
   @ApiOperation({ summary: 'z获取第三方数据' })
   getThirdServe() {
     return this.goodsService.getThirdServe();
+  }
+
+  // 上传商品图
+  @Post('addGoods')
+  @ApiOperation({ summary: '上传商品图' })
+  @UseInterceptors(FileInterceptor('img')) // 配置上传图片的名称，不加会报错
+  @ApiBody({ type: UploadFileDto, description: '上传商品图' })
+  async addGoods(@UploadedFile() file, @Body() body: UploadFileDto) {
+    return await this.goodsService.addGoods({ params: body, file });
   }
 }
