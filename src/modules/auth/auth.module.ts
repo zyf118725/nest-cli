@@ -24,10 +24,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   providers: [
     AuthService,
     // 2. 注册全局守卫
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: AuthGuard,
+    // },
   ],
 })
 export class AuthModule {}
