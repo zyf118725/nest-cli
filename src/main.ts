@@ -5,6 +5,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cors from 'cors';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './util/exception.filter';
+import { json } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,7 +23,9 @@ async function bootstrap() {
 
   app.use(cors()); // 全局启用 CORS
   app.useGlobalFilters(new AllExceptionsFilter()); // 注册全局异常过滤器
-  await app.listen(port);
+  app.use(json({ limit: '100mb' })); // 全局设置请求体大小限制
+
   console.info(`main: ${configService.get('other')}-serve started http://localhost:${port}/api`);
+  await app.listen(port);
 }
 bootstrap();
