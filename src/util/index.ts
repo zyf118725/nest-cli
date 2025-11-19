@@ -12,8 +12,6 @@ export const formatError = ({ code = 10002, msg = '服务器错误', data = null
  * 统一返回结构：分页
  */
 export function formatPage({ pageNum = 1, pageSize = 10, total, list = [] }) {
-  console.log('total: ', total);
-  console.log('pageSize: ', pageSize);
   return formatSuccess({
     pageNum,
     pageSize,
