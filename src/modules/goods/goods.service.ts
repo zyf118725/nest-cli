@@ -68,7 +68,6 @@ export class GoodsService {
   // 获取第三方数据
   async getThirdServe() {
     const res: any = await productlist();
-    console.log('===res: ', res);
-    return formatSuccess(res);
+    return res;
   }
 }

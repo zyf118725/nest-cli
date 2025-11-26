@@ -25,7 +25,9 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter()); // 注册全局异常过滤器
   app.use(json({ limit: '100mb' })); // 全局设置请求体大小限制
 
-  console.info(`main: ${configService.get('other')}-serve started http://localhost:${port}/api`);
   await app.listen(port);
+  const host = `http://localhost:${port}/api`;
+  console.info(`main (${configService.get('other')}Host): ${host}`);
+  console.info(`main (swagger): ${host}/doc`);
 }
 bootstrap();

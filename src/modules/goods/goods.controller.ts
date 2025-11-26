@@ -4,6 +4,7 @@ import { CreateGoodDto } from './dto/create-good.dto';
 import { UpdateGoodDto } from './dto/update-good.dto';
 import { ApiTags, ApiOperation, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
 import { Public } from '../auth/decorators/public.decorator';
+import { formatSuccess } from 'src/util';
 @ApiBearerAuth()
 @ApiTags('商品')
 @Controller('goods')
@@ -46,7 +47,9 @@ export class GoodsController {
   @Public()
   @Post('getThirdServe')
   @ApiOperation({ summary: 'z获取第三方数据' })
-  getThirdServe() {
-    return this.goodsService.getThirdServe();
+  async getThirdServe() {
+    const res: any = await this.goodsService.getThirdServe();
+    console.log('==z获取第三方数据 : ', res);
+    return formatSuccess(res);
   }
 }
