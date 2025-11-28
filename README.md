@@ -1,6 +1,6 @@
 # 简介
 nestjs 的模版
-包含 Typeorm + JWt + Swagger + Mysql + docker + redis
+包含 Typeorm + JWt + Swagger + Mysql + docker + redis + 日志 + 异常处理
 
 # 注意
 1. 需要保证mysql可以正常连接才能正常启动

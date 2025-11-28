@@ -24,3 +24,6 @@ export function formatPage({ pageNum = 1, pageSize = 10, total, list = [] }) {
 // 格式化数据
 // 数据库等返回的数据有大量冗余的属性
 export const formatData = (data: any) => JSON.parse(JSON.stringify(data));
+
+// 生成4位数字的随机数
+export const randomNum = () => Math.floor(Math.random() * 9000 + 1000);

@@ -1,20 +1,41 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Inject } from '@nestjs/common';
 import { GoodsService } from './goods.service';
 import { CreateGoodDto } from './dto/create-good.dto';
 import { UpdateGoodDto } from './dto/update-good.dto';
 import { ApiTags, ApiOperation, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
 import { Public } from '../auth/decorators/public.decorator';
-import { formatSuccess } from 'src/util';
+import { formatSuccess, randomNum } from 'src/util';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { Logger } from 'winston';
+
 @ApiBearerAuth()
 @ApiTags('商品')
 @Controller('goods')
 export class GoodsController {
-  constructor(private readonly goodsService: GoodsService) {}
+  constructor(
+    private readonly goodsService: GoodsService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+  ) {}
 
+  /*
+    查询商品 + 日志
+    this.logger.info(message, obj, obj2, ...objN);
+
+    // 普通日志
+    this.logger.info(标题);
+    // 带对象的日志
+    this.logger.info(标题, { data: 对象 });
+
+  */
   @Get()
   @Public()
   @ApiOperation({ summary: '查询-不鉴权', description: '查询' })
   findAll(@Query() params: any) {
+    const num = randomNum();
+
+    this.logger.info(`普通日志-${num}`);
+    this.logger.info(`对象日志-${num}`, { data: { id: '111' } }, { data2: { id: '1112' } });
+    this.logger.error('错误日志', { data: { msg: '我是错误日志', info: { id: 1, name: '张三' } } });
     return this.goodsService.findAll(params);
   }
 
