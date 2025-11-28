@@ -2,7 +2,6 @@ import * as chalk from 'chalk'; // 用于颜色化输出
 import { createLogger, format, transports } from 'winston';
 import * as DailyRotateFile from 'winston-daily-rotate-file';
 
-console.log('==== winston.logger-s ==== ');
 // 定义日志级别颜色
 const levelsColors = {
   error: 'red',
@@ -31,7 +30,7 @@ const winstonLogger = createLogger({
     }),
     format.errors({ stack: true }),
     format.splat(),
-    // format.json(),
+    format.json(),
     format.printf((info) => {
       return `${info.timestamp} [${info.level}] : ${info.message} ${Object.keys(info).length ? JSON.stringify(info, null, 2) : ''}`;
     }),

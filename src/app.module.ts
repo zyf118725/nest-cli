@@ -10,8 +10,10 @@ import { OrderModule } from './modules/order/order.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { WinstonModule } from 'nest-winston';
 import winstonLogger from './config/winston.logger';
-
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from './util/exception.filter';
 // import { RedisModule } from './modules/redis/redis.module';
+
 // 处理环境变量
 const envFilePath = ['.env'];
 const APP_ENV = process.env.APP_ENV;
@@ -30,7 +32,7 @@ console.log('app.module-APP_ENV====: ', APP_ENV);
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
-        console.log('configService', JSON.parse(JSON.stringify(configService)));
+        // console.log('== app.module: configService', JSON.parse(JSON.stringify(configService)));
         return {
           type: 'mysql',
           host: configService.get<string>('database.host'),
@@ -62,6 +64,12 @@ console.log('app.module-APP_ENV====: ', APP_ENV);
     // RedisModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER, // 使用 APP_FILTER 令牌
+      useClass: AllExceptionsFilter, // 指定要使用的过滤器类
+    },
+  ],
 })
 export class AppModule {}

@@ -4,7 +4,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cors from 'cors';
 import { AppModule } from './app.module';
-import { AllExceptionsFilter } from './util/exception.filter';
 import { json } from 'express';
 
 async function bootstrap() {
@@ -22,7 +21,6 @@ async function bootstrap() {
   SwaggerModule.setup('/api/doc', app, document);
 
   app.use(cors()); // 全局启用 CORS
-  app.useGlobalFilters(new AllExceptionsFilter()); // 注册全局异常过滤器
   app.use(json({ limit: '100mb' })); // 全局设置请求体大小限制
 
   await app.listen(port);
